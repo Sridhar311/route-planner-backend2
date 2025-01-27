@@ -3,11 +3,23 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000; // Use the port from environment variables or default to 5000
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+
+// Configure CORS to allow only specific origins in production
+const allowedOrigins = ["https://sridhar311.github.io"]; // Replace with your GitHub Pages URL
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
+app.use(cors(corsOptions));
 
 // Sample graph (distances are in KM)
 const graph = {
@@ -60,20 +72,24 @@ function dijkstra(graph, start, goal) {
   }
 
   path.reverse();
-  return { path, distance: distances[goal] }; 
+  return { path, distance: distances[goal] };
 }
 
 // API Routes
 app.post("/", (req, res) => {
   const { start, goal } = req.body;
 
+  if (!start || !goal) {
+    return res.status(400).json({ error: "Start and goal are required." });
+  }
+
   if (!graph[start] || !graph[goal]) {
-    return res.status(400).json({ error: "Invalid start or goal point" });
+    return res.status(400).json({ error: "Invalid start or goal point." });
   }
 
   const result = dijkstra(graph, start, goal);
-  if (result.distance === Infinity) { 
-    return res.status(404).json({ error: "No path found" });
+  if (result.distance === Infinity) {
+    return res.status(404).json({ error: "No path found." });
   }
 
   res.json(result);
