@@ -20,11 +20,35 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const graph = {
-  Coimbatore: { Madurai: 207, Rameshwaram: 379 },
-  Madurai: { Coimbatore: 207, Dindugal: 64 },
-  Dindugal: { Madurai: 64, Rameshwaram: 231 },
-  Rameshwaram: { Coimbatore: 379, Dindugal: 231 },
+  Chennai: { Kanchipuram: 72, Vellore: 137, Tiruvallur: 45 },
+  Kanchipuram: { Chennai: 72, Vellore: 87, Villupuram: 113 },
+  Vellore: { Chennai: 137, Kanchipuram: 87, Tiruvannamalai: 82, Krishnagiri: 139 },
+  Tiruvallur: { Chennai: 45, Vellore: 97 },
+  Villupuram: { Kanchipuram: 113, Tiruvannamalai: 106, Cuddalore: 40 },
+  Tiruvannamalai: { Vellore: 82, Villupuram: 106, Salem: 135 },
+  Cuddalore: { Villupuram: 40, Pudukkottai: 175, Nagapattinam: 144 },
+  Salem: { Tiruvannamalai: 135, Namakkal: 56, Dharmapuri: 68, Erode: 64 },
+  Namakkal: { Salem: 56, Trichy: 91, Karur: 87 },
+  Dharmapuri: { Salem: 68, Krishnagiri: 47 },
+  Erode: { Salem: 64, Coimbatore: 99, Karur: 65 },
+  Coimbatore: { Erode: 99, Tiruppur: 55, Nilgiris: 83 },
+  Tiruppur: { Coimbatore: 55, Erode: 49 },
+  Karur: { Namakkal: 87, Erode: 65, Trichy: 83 },
+  Trichy: { Namakkal: 91, Karur: 83, Thanjavur: 58, Pudukkottai: 61 },
+  Thanjavur: { Trichy: 58, Nagapattinam: 84, Pudukkottai: 52 },
+  Pudukkottai: { Trichy: 61, Thanjavur: 52, Sivaganga: 74, Ramanathapuram: 113 },
+  Sivaganga: { Pudukkottai: 74, Madurai: 48 },
+  Ramanathapuram: { Pudukkottai: 113, Madurai: 115, Thoothukudi: 108 },
+  Madurai: { Sivaganga: 48, Ramanathapuram: 115, Dindigul: 63, Theni: 76 },
+  Theni: { Madurai: 76, Dindigul: 75 },
+  Dindigul: { Madurai: 63, Theni: 75, Karur: 90 },
+  Nilgiris: { Coimbatore: 83 },
+  Nagapattinam: { Thanjavur: 84, Cuddalore: 144 },
+  Thoothukudi: { Ramanathapuram: 108, Tirunelveli: 48 },
+  Tirunelveli: { Thoothukudi: 48, Kanyakumari: 85 },
+  Kanyakumari: { Tirunelveli: 85 }
 };
+
 
 // Dijkstra's Algorithm
 function dijkstra(graph, start, goal) {
