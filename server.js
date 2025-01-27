@@ -3,11 +3,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-const PORT = process.env.PORT || 5000; 
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(bodyParser.json());
-const allowedOrigins = ["https://sridhar311.github.io"]; 
+const allowedOrigins = [
+  "https://sridhar311.github.io", // Production URL
+  "http://127.0.0.1:5500" // Local development URL
+];
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -53,15 +56,12 @@ const graph = {
   Tiruvannamalai: { Villupuram: 106, Vellore: 82, Krishnagiri: 140, Dharmapuri: 100 },
 };
 
-
-
-// Dijkstra's Algorithm
+// Dijkstra's Algorithm with Debugging
 function dijkstra(graph, start, goal) {
   const distances = {};
   const priorityQueue = [];
   const predecessors = {};
 
-  // Initialize distances and predecessors
   Object.keys(graph).forEach((node) => {
     distances[node] = Infinity;
     predecessors[node] = null;
@@ -71,16 +71,16 @@ function dijkstra(graph, start, goal) {
   priorityQueue.push({ node: start, cost: 0 });
 
   while (priorityQueue.length > 0) {
-    // Sort the priority queue by cost
     priorityQueue.sort((a, b) => a.cost - b.cost);
     const { node: currentNode } = priorityQueue.shift();
 
-    // Stop if we reached the goal
+    console.log(`Visiting node: ${currentNode}, Cost so far: ${distances[currentNode]}`);
+
     if (currentNode === goal) break;
 
-    // Update distances to neighbors
     for (const [neighbor, cost] of Object.entries(graph[currentNode])) {
       const newCost = distances[currentNode] + cost;
+      console.log(`Checking neighbor: ${neighbor}, Cost: ${cost}, New cost: ${newCost}`);
       if (newCost < distances[neighbor]) {
         distances[neighbor] = newCost;
         predecessors[neighbor] = currentNode;
@@ -89,7 +89,6 @@ function dijkstra(graph, start, goal) {
     }
   }
 
-  // Construct the shortest path
   const path = [];
   let current = goal;
   while (current) {
@@ -103,19 +102,24 @@ function dijkstra(graph, start, goal) {
 
 // API Routes
 app.post("/", (req, res) => {
+  console.log("HIs");
+  
   const { start, goal } = req.body;
 
   if (!start || !goal) {
     return res.status(400).json({ error: "Start and goal are required." });
   }
 
+
   if (!graph[start] || !graph[goal]) {
+    console.log(start, goal, graph[goal], graph[start]);
     return res.status(400).json({ error: "Invalid start or goal point." });
   }
 
   const result = dijkstra(graph, start, goal);
+  console.log(result);
   if (result.distance === Infinity) {
-    return res.status(404).json({ error: "No path found." });
+    return res.status(404).json({ error: "uygyut67" });
   }
 
   res.json(result);
