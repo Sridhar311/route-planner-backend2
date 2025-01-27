@@ -48,6 +48,7 @@ const graph = {
   Kambam: { Theni: 47, Idukki: 60 },
   Idukki: { Kambam: 60, Theni: 55 },
   Coimbatore: { Erode: 99, Tiruppur: 55, Dindigul: 155, Nilgiris: 75 },
+  Madurai: { Dindigul: 63, Sivaganga: 48, Theni: 76, Ramanathapuram: 115 },
   Tiruppur: { Coimbatore: 55, Erode: 49 },
   Erode: { Salem: 64, Coimbatore: 99, Tiruppur: 49, Namakkal: 90 },
   Salem: { Namakkal: 56, Erode: 64, Dharmapuri: 68, Krishnagiri: 90 },
