@@ -64,7 +64,7 @@ function dijkstra(graph, start, goal) {
 }
 
 // API Routes
-app.post("/shortest-path", (req, res) => {
+app.post("/", (req, res) => {
   const { start, goal } = req.body;
 
   if (!graph[start] || !graph[goal]) {
